@@ -15,7 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    // Override point for customization after application launch.
+    
+    //設定App通知的類型
+    let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+    let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+    
+    //註冊
+    application.registerUserNotificationSettings(pushNotificationSettings)
+    application.registerForRemoteNotifications()
+    
     return true
   }
 
@@ -40,7 +48,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
+  
+  
+  //called when Notification was successed
+  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData){
+    print("DEVICE TOKEN = \(deviceToken)")
+  }
 
+  //called when Notification was failed
+  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    print(error)
+  }
+  
+  //
+  func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    print(userInfo)
+  }
 
 }
 
